@@ -60,6 +60,12 @@ export async function fetchCardData() {
          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
          FROM invoices`;
 
+    // See Parallel data fetching, instead of creating a request waterfall...
+    // See:
+    // https://nextjs.org/learn/dashboard-app/fetching-data#parallel-data-fetching
+    // and following mdn links in the above mentioned section:
+    // - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
+    // - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled
     const data = await Promise.all([
       invoiceCountPromise,
       customerCountPromise,
